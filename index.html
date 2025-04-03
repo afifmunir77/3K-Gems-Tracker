@@ -1,0 +1,104 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>3K Gems Tracker</title>
+    <style>
+        table { border-collapse: collapse; margin: 20px 0; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background-color: #f2f2f2; }
+        tfoot td { font-weight: bold; }
+        #totalShards { font-size: 18px; padding: 10px; }
+    </style>
+</head>
+<body>
+    <h2>3K Gems Tracker</h2>
+    <table>
+        <thead>
+            <tr>
+                <th>Day</th>
+                <th>Date</th>
+                <th>102</th>
+                <th>103</th>
+                <th>104</th>
+                <th>105</th>
+                <th>106</th>
+                <th>107</th>
+            </tr>
+        </thead>
+        <tbody id="tableBody"></tbody>
+        <tfoot>
+            <tr>
+                <td colspan="2">Total Shards</td>
+                <td id="total-102">0</td>
+                <td id="total-103">0</td>
+                <td id="total-104">0</td>
+                <td id="total-105">0</td>
+                <td id="total-106">0</td>
+                <td id="total-107">0</td>
+            </tr>
+        </tfoot>
+    </table>
+    <div id="totalShards">Total Shards: 0</div>
+
+    <script>
+        const shardValues = {102:10, 103:30, 104:60, 105:120, 106:180, 107:250};
+
+        function createTable() {
+            const tbody = document.getElementById('tableBody');
+            
+            for(let day = 1; day <= 28; day++) {
+                const row = document.createElement('tr');
+                const date = new Date(2024, 3, day + 2); // April is month 3 in JS
+                
+                // Day and Date cells
+                row.innerHTML = `
+                    <td>${day}</td>
+                    <td>Apr ${day + 2}</td>
+                `;
+
+                // Create checkboxes for columns 102-107
+                [102, 103, 104, 105, 106, 107].forEach(col => {
+                    const td = document.createElement('td');
+                    const checkbox = document.createElement('input');
+                    checkbox.type = 'checkbox';
+                    checkbox.dataset.day = day;
+                    checkbox.dataset.column = col;
+                    
+                    // Load saved state
+                    checkbox.checked = localStorage.getItem(`day${day}_col${col}`) === 'true';
+                    
+                    // Save state on change
+                    checkbox.addEventListener('change', () => {
+                        localStorage.setItem(`day${day}_col${col}`, checkbox.checked);
+                        updateTotals();
+                    });
+                    
+                    td.appendChild(checkbox);
+                    row.appendChild(td);
+                });
+
+                tbody.appendChild(row);
+            }
+        }
+
+        function updateTotals() {
+            const totals = {102:0, 103:0, 104:0, 105:0, 106:0, 107:0};
+            
+            // Calculate column totals
+            [102, 103, 104, 105, 106, 107].forEach(col => {
+                const checkboxes = document.querySelectorAll(`input[data-column="${col}"]:checked`);
+                totals[col] = checkboxes.length * shardValues[col];
+                document.getElementById(`total-${col}`).textContent = totals[col];
+            });
+
+            // Calculate grand total
+            const grandTotal = Object.values(totals).reduce((sum, val) => sum + val, 0);
+            document.getElementById('totalShards').textContent = `Total Shards: ${grandTotal}`;
+        }
+
+        // Initialize table and totals
+        createTable();
+        updateTotals();
+    </script>
+</body>
+</html>
