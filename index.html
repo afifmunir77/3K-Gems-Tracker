@@ -41,7 +41,7 @@
     <div class="flex flex-col md:flex-row items-center justify-between mb-6 max-w-6xl mx-auto w-full">
         <div class="text-center md:text-left mb-4 md:mb-0">
             <h2 class="text-3xl font-bold text-gray-800">3K Gems Tracker</h2>
-            <h3 class="text-xl font-semibold text-gray-600 mt-1">Event: Aqua vs Inferno</h3>
+            <h3 class="text-xl font-semibold text-gray-600 mt-1">Ragnarok: Mighty Winter</h3>
         </div>
         <!-- Grand Total Display -->
         <div class="bg-blue-600 text-white p-4 rounded-lg shadow-xl flex items-center justify-center flex-col transform transition-all duration-300 hover:scale-105 hover:bg-blue-700 border border-blue-400 w-full md:w-1/4">
@@ -60,24 +60,30 @@
                     <tr>
                         <th>Day</th>
                         <th>Date</th>
+                        <th>103</th>
                         <th>104</th>
                         <th>105</th>
                         <th>106</th>
                         <th>107</th>
                         <th>108</th>
                         <th>109</th>
+                        <th>110</th>
+                        <th>111</th>
                     </tr>
                 </thead>
                 <tbody id="tableBody"></tbody>
                 <tfoot>
                     <tr>
                         <td colspan="2" class="text-right pr-4">Total Shards per Column</td>
+                        <td id="total-103">0</td>
                         <td id="total-104">0</td>
                         <td id="total-105">0</td>
                         <td id="total-106">0</td>
                         <td id="total-107">0</td>
                         <td id="total-108">0</td>
                         <td id="total-109">0</td>
+                        <td id="total-110">0</td>
+                        <td id="total-111">0</td>
                     </tr>
                 </tfoot>
             </table>
@@ -90,16 +96,19 @@
     <script>
         // Define the shard values for each column
         const shardValues = {
+            103: 5,
             104: 10,
-            105: 30,
-            106: 60,
-            107: 120,
-            108: 180,
-            109: 250
+            105: 10,
+            106: 10,
+            107: 30,
+            108: 60,
+            109: 120,
+            110: 180,
+            111: 250
         };
 
         // Define the columns to iterate over
-        const columns = [104, 105, 106, 107, 108, 109];
+        const columns = [103, 104, 105, 106, 107, 108, 109, 110, 111];
 
         /**
          * Creates the table rows and populates them with day, date, and checkboxes.
@@ -109,10 +118,10 @@
             const tbody = document.getElementById('tableBody');
             tbody.innerHTML = ''; // Clear existing table rows
 
-            // Define the starting date for June 12, 2025
-            const startDate = new Date(2025, 5, 12); // Month 5 is June (0-indexed)
+            // Define the starting date for July 10, 2025
+            const startDate = new Date(2025, 6, 10); // Month 6 is July (0-indexed)
 
-            for (let day = 1; day <= 28; day++) {
+            for (let day = 1; day <= 21; day++) {
                 const row = document.createElement('tr');
 
                 // Calculate the date for the current row
